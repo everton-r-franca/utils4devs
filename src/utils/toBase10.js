@@ -71,11 +71,32 @@ function toBase10(convert) {
    if (numberStringSanitized !== "msg") {
       const digits = greater9Converter(extractDigits(numberStringSanitized));
 
-      return conversorAlgorithm(digits, base).value;
+      return conversorAlgorithm(digits, base).value.toString();
    } else {
       return "error";
    }
 }
+
+/**
+ *  it is a bad pratic ? there are a scope problem here !!!
+ * 
+String.prototype.toBase10 = function () {
+   const string = this.split("x");
+   const number = string[1];
+   const base = parseInt(string[0]);
+   const numberStringSanitized = allSanitizeNumber(number, base);
+
+   if (numberStringSanitized !== "msg") {
+      const digits = greater9Converter(extractDigits(numberStringSanitized));
+
+      return conversorAlgorithm(digits, base).value.toString();
+   } else {
+      return "error";
+   }
+};
+*
+*
+*/
 
 ///.value.toLocaleString("de-DE"));
 
