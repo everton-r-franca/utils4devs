@@ -1,4 +1,4 @@
-const bigInt = require("big-integer");
+import bigInt from "big-integer";
 
 function sanitizeNumber(numberString) {
    return numberString.replace(/[^0-9a-f]/gi, "");
@@ -14,7 +14,7 @@ function numberIsValid(numberStringSanitized) {
 function baseIsValid(numberStringSanitized, base) {
    if (base > 1 && base <= 16) {
       const digits = greater9Converter(
-         extracDigits(sanitizeNumber(numberStringSanitized.toString()))
+         extractDigits(sanitizeNumber(numberStringSanitized.toString()))
       );
       const max = Math.max(...digits);
       return max >= 0 && max <= base - 1;
@@ -25,7 +25,7 @@ function InputIsEqualSanitized(StringInput, StringSanitized) {
    return StringInput === StringSanitized;
 }
 
-function extracDigits(numberString) {
+function extractDigits(numberString) {
    return numberString.split("");
 }
 
@@ -64,11 +64,11 @@ function conversorAlgorithm(digits, base) {
    return result;
 }
 
-function base10Converter(numberString, base) {
+function toBase10(numberString, base) {
    const numberStringSanitized = allSanitizeNumber(numberString, base);
 
    if (numberStringSanitized !== "msg") {
-      const digits = greater9Converter(extracDigits(numberStringSanitized));
+      const digits = greater9Converter(extractDigits(numberStringSanitized));
 
       return conversorAlgorithm(digits, base);
    } else {
@@ -78,4 +78,4 @@ function base10Converter(numberString, base) {
 
 ///.value.toLocaleString("de-DE"));
 
-export { base10Converter };
+export default toBase10;

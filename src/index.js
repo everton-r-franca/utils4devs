@@ -1,3 +1,3 @@
-import { base10Converter } from "./utils/base10Converter";
+import toBase10 from "./utils/toBase10";
 
-console.log(base10Converter("ff", 16).value);
+console.log(toBase10("fffff", 16).value);
