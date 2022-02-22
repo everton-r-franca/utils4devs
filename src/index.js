@@ -1,3 +1,5 @@
 import toBase10 from "./utils/toBase10";
 
-console.log(toBase10("fffff", 16).value);
+const convert = { number: "f", base: 16 };
+
+console.log(toBase10.number(convert));

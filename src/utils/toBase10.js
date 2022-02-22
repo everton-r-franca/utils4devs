@@ -64,13 +64,14 @@ function conversorAlgorithm(digits, base) {
    return result;
 }
 
-function toBase10(numberString, base) {
-   const numberStringSanitized = allSanitizeNumber(numberString, base);
+function toBase10(convert) {
+   const { number, base } = convert;
+   const numberStringSanitized = allSanitizeNumber(number, base);
 
    if (numberStringSanitized !== "msg") {
       const digits = greater9Converter(extractDigits(numberStringSanitized));
 
-      return conversorAlgorithm(digits, base);
+      return conversorAlgorithm(digits, base).value;
    } else {
       return "error";
    }
@@ -78,4 +79,4 @@ function toBase10(numberString, base) {
 
 ///.value.toLocaleString("de-DE"));
 
-export default toBase10;
+export default { number: toBase10 };
