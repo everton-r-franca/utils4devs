@@ -1,4 +1,5 @@
 import bigInt from "big-integer";
+import messages from "./messages";
 
 function sanitizeNumber(numberString) {
    return numberString.replace(/[^0-9a-f]/gi, "");
@@ -11,31 +12,37 @@ function numberIsValid(numberStringSanitized) {
    );
 }
 
-function baseIsValid(numberStringSanitized, base) {
-   if (base > 1 && base <= 16) {
-      const digits = greater9Converter(
-         extractDigits(sanitizeNumber(numberStringSanitized.toString()))
-      );
-      const max = Math.max(...digits);
-      return max >= 0 && max <= base - 1;
-   }
+function baseIsValid(base) {
+   return base > 1 && base <= 16;
 }
-
+function numberBaseIsValid(numberStringSanitized, base) {
+   const digits = greater9Converter(
+      extractDigits(sanitizeNumber(numberStringSanitized.toString()))
+   );
+   const max = Math.max(...digits);
+   return max >= 0 && max <= base - 1;
+}
 function InputIsEqualSanitized(StringInput, StringSanitized) {
    return StringInput === StringSanitized;
 }
 
 function extractDigits(numberString) {
-   return numberString.split("");
+   return numberString.toString().split("");
 }
 
 function allSanitizeNumber(numberString, base) {
    const numberStringSanitized = sanitizeNumber(numberString);
-   if (!baseIsValid(numberStringSanitized, base)) return "msg";
-   if (!numberIsValid(numberStringSanitized)) return "msg";
+   if (!baseIsValid(base))
+      return messages.addError("A base numérica deve estar entre 2 e 16.");
+   if (!numberIsValid(numberStringSanitized))
+      return messages.addError("O deve ter no mínimo 1 digito e no máximo 1M");
+   if (!numberBaseIsValid(numberStringSanitized, base))
+      return messages.addError(
+         `${numberString} não pode pertencer a base ${base}`
+      );
+
    if (!InputIsEqualSanitized(numberString, numberStringSanitized))
-      return "msg";
-   if (!baseIsValid(numberStringSanitized, base)) return "msg";
+      messages.addWarning("Caracteres inválidos foram removidos");
    return numberStringSanitized;
 }
 
@@ -66,14 +73,15 @@ function conversorAlgorithm(digits, base) {
 
 function toBase10(convert) {
    const { number, base } = convert;
+
    const numberStringSanitized = allSanitizeNumber(number, base);
 
-   if (numberStringSanitized !== "msg") {
+   if (!messages.hasErrors()) {
+      console.log(messages.warnings());
       const digits = greater9Converter(extractDigits(numberStringSanitized));
-
       return conversorAlgorithm(digits, base).value.toString();
    } else {
-      return "error";
+      return messages.errors();
    }
 }
 

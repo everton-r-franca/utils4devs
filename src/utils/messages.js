@@ -39,11 +39,11 @@ function addInfo(message) {
 }
 
 function hasInfos() {
-   return searchByType("info");
+   return searchByType("info").length > 0;
 }
 
 function warnings() {
-   return searchByType("warnings");
+   return searchByType("warning");
 }
 
 function addWarning(message) {
@@ -51,7 +51,7 @@ function addWarning(message) {
 }
 
 function hasWarnings() {
-   return searchByType("warning");
+   return searchByType("warning").length > 0;
 }
 
 export default {
